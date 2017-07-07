@@ -1,4 +1,4 @@
-#Star Wars People
+#Quick Quote
 
 ## Get Started
 1. **Install [Node 6](https://nodejs.org)**
