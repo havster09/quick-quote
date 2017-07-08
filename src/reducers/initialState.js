@@ -8,6 +8,7 @@ export default {
     lastName: '',
     lastNameTouched: null,
     email: '',
+    emailTouched: null,
     countryCode: countryCodes[0].dial_code,
     phone: '',
     amount: '',
