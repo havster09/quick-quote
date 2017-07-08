@@ -1,16 +1,17 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as peopleActions from '../../actions/peopleActions';
-import * as ratingsActions from '../../actions/ratingsActions';
+import * as quickQuoteActions from '../../actions/quickQuoteActions';
 import {store} from '../../index';
 import * as PropTypes from 'react/lib/ReactPropTypes';
 import {
   Button, ControlLabel, DropdownButton, Form, FormControl, FormGroup, InputGroup,
   MenuItem
 } from 'react-bootstrap';
-import {countryCodes} from "../../common/countryCodes";
 
+import {countryCodes} from "../../common/countryCodes";
+import {currencyCodes} from "../../common/currencyCodes";
+import QuickQuoteForm from "./QuickQuoteForm";
 
 
 class QuickQuotePage extends React.Component {
@@ -21,8 +22,12 @@ class QuickQuotePage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleCountryCodeSelect = this.handleCountryCodeSelect.bind(this);
+    this.getValidationStateAmount = this.getValidationStateAmount.bind(this);
+
+    this.handleQuickQuote = this.handleQuickQuote.bind(this);
 
     this.countryCodes = countryCodes;
+    this.currencyCodes = currencyCodes;
 
     this.state = {
       firstName: '',
@@ -30,19 +35,35 @@ class QuickQuotePage extends React.Component {
       lastName: '',
       lastNameTouched: null,
       email: '',
-      countryCode:countryCodes[0].dial_code
+      countryCode: countryCodes[0].dial_code,
+      phone: '',
+      amount: '',
+      amountTouched: null,
+      fromCurrency: 'AUD',
+      toCurrency: 'USD'
     };
   }
 
   componentDidMount() {
-    store.dispatch(peopleActions.loadPeople());
+    store.dispatch(quickQuoteActions.loadQuote());
   }
 
   getValidationStateRequired(input) {
     const inputTouched = `${input}Touched`;
-    if(this.state[inputTouched]) {
+    if (this.state[inputTouched]) {
       const length = this.state[input].length;
-      return length > 0 ? 'success':'error';
+      return length > 0 ? 'success' : 'error';
+    }
+    else {
+      return null;
+    }
+  }
+
+  getValidationStateAmount(input) {
+    const inputTouched = `${input}Touched`;
+    if (this.state[inputTouched]) {
+      const amount = parseInt(this.state.amount);
+      return amount >= 250 ? 'success' : 'error';
     }
     else {
       return null;
@@ -51,10 +72,10 @@ class QuickQuotePage extends React.Component {
 
   getValidationStateEmail(input) {
     const inputTouched = `${input}Touched`;
-    if(this.state[inputTouched]) {
+    if (this.state[inputTouched]) {
       const value = this.state[input];
       const emailPattern = new RegExp("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$");
-      return emailPattern.test(value) ? 'success':'error';
+      return emailPattern.test(value) ? 'success' : 'error';
     }
     else {
       return null;
@@ -63,26 +84,36 @@ class QuickQuotePage extends React.Component {
 
   handleChange(e) {
     const id = e.target.id;
-    this.setState(Object.assign({}, this.state, { [id]: e.target.value }));
+    this.setState(Object.assign({}, this.state, {[id]: e.target.value}));
   }
 
   handleCountryCodeSelect(e) {
-    this.setState(Object.assign({}, this.state, { countryCode: e.target.text }));
+    this.setState(Object.assign({}, this.state, {countryCode: e.target.text}));
   }
 
   handleFocus(e) {
     const idTouched = `${e.target.id}Touched`;
-    if(!this.state[idTouched]) {
-      this.setState(Object.assign({}, this.state, { [idTouched]: true }));
+    if (!this.state[idTouched]) {
+      this.setState(Object.assign({}, this.state, {[idTouched]: true}));
     }
+  }
+
+  handleQuickQuote() {
+    console.log(JSON.stringify(this.state));
   }
 
   render() {
     const countryCodes = this.countryCodes.map((countryCode) => {
       return <MenuItem key={`${countryCode.name}`} onClick={this.handleCountryCodeSelect}>{countryCode.dial_code}</MenuItem>;
     });
+
+    const currencyCodes = Object.keys(this.currencyCodes).map((currencyCode, i) => {
+      return (<option key={`${currencyCode.code}_${i}`} value={currencyCode.code}>{`${this.currencyCodes[currencyCode].name } [${currencyCode}]`}</option>);
+    });
+    const {quickQuoteForm} = this.props;
     return (
       <div className="col-sm-12">
+        <QuickQuoteForm quickQuoteForm={quickQuoteForm}/>
         <Form>
           <div className="col-sm-6">
             <FormGroup
@@ -133,7 +164,8 @@ class QuickQuotePage extends React.Component {
           </div>
 
           <div className="col-sm-12">
-            <FormGroup>
+            <FormGroup
+              controlId="phone">
               <ControlLabel>Telephone / Mobile</ControlLabel>
               <InputGroup>
                 <DropdownButton
@@ -142,14 +174,59 @@ class QuickQuotePage extends React.Component {
                   title={this.state.countryCode}>
                   {countryCodes}
                 </DropdownButton>
-                <FormControl type="text" />
+                <FormControl
+                  type="text"
+                  value={this.state.phone}
+                  onChange={this.handleChange}
+                />
               </InputGroup>
             </FormGroup>
           </div>
 
-          <Button type="submit">
-            Submit
-          </Button>
+          <div className="col-sm-6">
+            <FormGroup controlId="fromCurrency">
+              <ControlLabel className="required">From Currency</ControlLabel>
+              <FormControl
+                componentClass="select"
+                onChange={this.handleChange}
+                value={this.state.fromCurrency}>
+                {currencyCodes}
+              </FormControl>
+            </FormGroup>
+          </div>
+
+          <div className="col-sm-6">
+            <FormGroup controlId="toCurrency">
+              <ControlLabel className="required">To Currency</ControlLabel>
+              <FormControl
+                componentClass="select"
+                onChange={this.handleChange}
+                value={this.state.toCurrency}>
+                {currencyCodes}
+              </FormControl>
+            </FormGroup>
+          </div>
+
+          <div className="col-sm-6">
+            <FormGroup
+              controlId="amount"
+              validationState={this.getValidationStateAmount('amount')}>
+              <ControlLabel className="required">Amount</ControlLabel>
+              <FormControl
+                type="text"
+                value={this.state.amount}
+                onFocus={this.handleFocus}
+                onChange={this.handleChange}
+              />
+              <FormControl.Feedback />
+            </FormGroup>
+          </div>
+
+          <div className="col-sm-12">
+            <Button type="button" onClick={this.handleQuickQuote}>
+              Submit
+            </Button>
+          </div>
         </Form>
       </div>
     );
@@ -157,26 +234,21 @@ class QuickQuotePage extends React.Component {
 }
 
 QuickQuotePage.propTypes = {
-  searchFilter: PropTypes.string,
-  people: PropTypes.array.isRequired,
-  planets: PropTypes.array.isRequired,
-  ratings: PropTypes.array.isRequired,
-  peopleActions: PropTypes.object.isRequired,
-  ratingsActions: PropTypes.object.isRequired
+  quickQuoteActions: PropTypes.object.isRequired,
+  quickQuoteForm: PropTypes.object.isRequired,
+  quote: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
   return {
-    people: state.people,
-    planets: state.planets,
-    ratings:state.ratings
+    quote: state.quote,
+    quickQuoteForm: state.quickQuoteForm
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    peopleActions: bindActionCreators(peopleActions, dispatch),
-    ratingsActions: bindActionCreators(ratingsActions, dispatch)
+    quickQuoteActions: bindActionCreators(quickQuoteActions, dispatch)
   };
 }
 
