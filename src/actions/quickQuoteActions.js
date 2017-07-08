@@ -17,7 +17,8 @@ export const setQuickQuoteFormDone = (quickQuoteForm) => {
 
 export const loadQuote = () => {
   return (dispatch) => {
-    return fetch(`https://api.ofx.com/PublicSite.ApiService/OFX/spotrate/Individual/AUD/USD/10000?format=json`)
+    let quickQuoteForm = store.getState().quickQuoteForm;
+    return fetch(`https://api.ofx.com/PublicSite.ApiService/OFX/spotrate/Individual/${quickQuoteForm.fromCurrency}/${quickQuoteForm.toCurrency}/${quickQuoteForm.amount}?format=json`)
       .then(response => response.json())
       .then((data) => {
       dispatch(loadQuoteSuccess(data));

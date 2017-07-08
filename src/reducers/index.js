@@ -1,8 +1,10 @@
 import {combineReducers} from 'redux';
 import quickQuoteForm from './quickQuoteFormReducer';
+import quickQuote from './quickQuoteReducer';
 
 const rootReducer = combineReducers({
-  quickQuoteForm
+  quickQuoteForm,
+  quickQuote
 });
 
 export default rootReducer;

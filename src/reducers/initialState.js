@@ -11,7 +11,7 @@ export default {
     emailTouched: null,
     countryCode: countryCodes[0].dial_code,
     phone: '',
-    amount: '',
+    amount: 10000,
     amountTouched: null,
     fromCurrency: 'AUD',
     toCurrency: 'USD'

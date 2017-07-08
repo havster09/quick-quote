@@ -6,6 +6,7 @@ import {store} from '../../index';
 import * as PropTypes from 'react/lib/ReactPropTypes';
 
 import QuickQuoteForm from "./QuickQuoteForm";
+import QuickQuoteSummary from "./QuickQuoteSummary";
 
 
 class QuickQuotePage extends React.Component {
@@ -19,13 +20,12 @@ class QuickQuotePage extends React.Component {
     this.handleFocus = this.handleFocus.bind(this);
     this.handleCountryCodeSelect = this.handleCountryCodeSelect.bind(this);
 
-
     this.handleQuickQuote = this.handleQuickQuote.bind(this);
     this.state = {};
   }
 
   componentDidMount() {
-    store.dispatch(quickQuoteActions.loadQuote());
+    this.handleQuickQuote();
   }
 
   getValidationStateRequired(input) {
@@ -45,7 +45,7 @@ class QuickQuotePage extends React.Component {
     const inputTouched = `${input}Touched`;
     if (quickQuoteForm[inputTouched]) {
       const amount = parseInt(quickQuoteForm.amount);
-      return amount >= 250 ? 'success' : 'error';
+      return amount > 0 ? 'success' : 'error';
     }
     else {
       return null;
@@ -83,26 +83,32 @@ class QuickQuotePage extends React.Component {
   }
 
   handleQuickQuote() {
-    const {quickQuoteForm} = this.props;
-    console.log(JSON.stringify(quickQuoteForm));
+    store.dispatch(quickQuoteActions.loadQuote());
   }
 
   render() {
-    const {quickQuoteForm} = this.props;
-
+    const {quickQuoteForm, quickQuote} = this.props;
     return (
-      <div className="col-sm-6">
-        <h1>New</h1>
-        <QuickQuoteForm
-          onGetValidationStateRequired={this.getValidationStateRequired}
-          onGetValidationStateAmount={this.getValidationStateAmount}
-          onGetValidationStateEmail={this.getValidationStateEmail}
-          onHandleChange={this.handleChange}
-          onHandleCountryCodeSelect={this.handleCountryCodeSelect}
-          onHandleFocus={this.handleFocus}
-          onHandleQuickQuote={this.handleQuickQuote}
-          quickQuoteForm={quickQuoteForm}/>
+      <div>
+        <div className="col-sm-6 quick-quote">
+          <h2 className="block__h2">Quick Quote</h2>
+          <QuickQuoteForm
+            onGetValidationStateRequired={this.getValidationStateRequired}
+            onGetValidationStateAmount={this.getValidationStateAmount}
+            onGetValidationStateEmail={this.getValidationStateEmail}
+            onHandleChange={this.handleChange}
+            onHandleCountryCodeSelect={this.handleCountryCodeSelect}
+            onHandleFocus={this.handleFocus}
+            onHandleQuickQuote={this.handleQuickQuote}
+            quickQuoteForm={quickQuoteForm}/>
+        </div>
+
+        <div className="col-sm-6 quick-quote">
+          <h2 className="block__h2">Quick Quote</h2>
+          <QuickQuoteSummary quickQuoteForm={quickQuoteForm} quickQuote={quickQuote}/>
+        </div>
       </div>
+
     );
   }
 }
@@ -110,12 +116,12 @@ class QuickQuotePage extends React.Component {
 QuickQuotePage.propTypes = {
   quickQuoteActions: PropTypes.object.isRequired,
   quickQuoteForm: PropTypes.object.isRequired,
-  quote: PropTypes.object
+  quickQuote: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
   return {
-    quote: state.quote,
+    quickQuote: state.quickQuote,
     quickQuoteForm: state.quickQuoteForm
   };
 }

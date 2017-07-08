@@ -128,8 +128,8 @@ const QuickQuoteForm = ({quickQuoteForm, onGetValidationStateRequired, onGetVali
       </div>
 
       <div className="col-sm-12">
-        <Button type="button" onClick={onHandleQuickQuote}>
-          Submit
+        <Button className="btn-primary" type="button" onClick={onHandleQuickQuote}>
+          Get Quote
         </Button>
       </div>
     </Form>
