@@ -15,12 +15,14 @@ class QuickQuotePage extends React.Component {
     this.getValidationStateRequired = this.getValidationStateRequired.bind(this);
     this.getValidationStateEmail = this.getValidationStateEmail.bind(this);
     this.getValidationStateAmount = this.getValidationStateAmount.bind(this);
+    this.handleParseAmount = this.handleParseAmount.bind(this);
 
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleCountryCodeSelect = this.handleCountryCodeSelect.bind(this);
 
     this.handleQuickQuote = this.handleQuickQuote.bind(this);
+    this.handleResetQuote = this.handleResetQuote.bind(this);
     this.state = {};
   }
 
@@ -68,6 +70,7 @@ class QuickQuotePage extends React.Component {
   handleChange(e) {
     const id = e.target.id;
     store.dispatch(quickQuoteActions.setQuickQuoteForm({[id]: e.target.value}));
+    this.handleResetQuote();
   }
 
   handleCountryCodeSelect(e) {
@@ -86,12 +89,20 @@ class QuickQuotePage extends React.Component {
     store.dispatch(quickQuoteActions.loadQuote());
   }
 
+  handleResetQuote() {
+    store.dispatch(quickQuoteActions.resetQuote());
+  }
+
+  handleParseAmount(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   render() {
     const {quickQuoteForm, quickQuote} = this.props;
     return (
       <div>
         <div className="col-sm-6 quick-quote">
-          <h2 className="block__h2">Quick Quote</h2>
+          <h2 className="quick-quote__h2">Quick Quote</h2>
           <QuickQuoteForm
             onGetValidationStateRequired={this.getValidationStateRequired}
             onGetValidationStateAmount={this.getValidationStateAmount}
@@ -104,8 +115,12 @@ class QuickQuotePage extends React.Component {
         </div>
 
         <div className="col-sm-6 quick-quote">
-          <h2 className="block__h2">Quick Quote</h2>
-          <QuickQuoteSummary quickQuoteForm={quickQuoteForm} quickQuote={quickQuote}/>
+          <h2 className="quick-quote__h2">Quick Quote</h2>
+          {quickQuote.Message && <QuickQuoteSummary
+            quickQuoteForm={quickQuoteForm}
+            quickQuote={quickQuote}
+            onParseAmount={this.handleParseAmount}
+            onResetQuote={this.handleResetQuote} />}
         </div>
       </div>
 
@@ -116,7 +131,8 @@ class QuickQuotePage extends React.Component {
 QuickQuotePage.propTypes = {
   quickQuoteActions: PropTypes.object.isRequired,
   quickQuoteForm: PropTypes.object.isRequired,
-  quickQuote: PropTypes.object
+  quickQuote: PropTypes.object.isRequired,
+  handleResetQuote: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {

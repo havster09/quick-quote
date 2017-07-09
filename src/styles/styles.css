@@ -2,50 +2,66 @@ body {
   margin:0;
 }
 
+.quick-quote {
+
+}
+
+.quick-quote-form-container {
+  background: white;
+}
+
 .quick-quote .btn-primary {
   text-transform: uppercase;
   border-radius: 20px;
+  margin-top: auto;
   min-width: 240px;
-  margin: 0 auto;
-  display: block;
 }
 
-.quick-quote .block__h2 {
+.quick-quote .get-quote {
+  display: block;
+  margin: 0 auto;
+}
+
+.quick-quote .start-new-quote {
+  align-self: center;
+}
+
+.quick-quote__h2 {
   border-bottom: 3px solid lightblue;
 }
 
 .quick-quote-summary {
+  min-height:445px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 .quick-quote-summary__customer-rate {
   text-align: center;
-  font-size: 1.9em;
+  font-size: 1.4em;
 }
 
 .quick-quote-summary__customer-rate-value {
   color:mediumseagreen;
-  font-size: 2em;
+  font-size: 3em;
   text-align: center;
 }
 
 .quick-quote__currency-amount-container {
-  max-width: 200px;
+  max-width: 260px;
   margin: 0 auto;
 }
 
 .quick-quote-summary__from-to {
-  font-size: 1.5em;
+  font-size: 1.8em;
 }
 
 .quick-quote-summary__currency {
-  font-size: 1.8em;
+  font-size: 2em;
 }
 
 .quick-quote-summary__amount {
-  font-size: 1.8em;
+  font-size: 2em;
   color: cadetblue;
 }
 

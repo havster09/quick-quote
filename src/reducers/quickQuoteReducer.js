@@ -5,6 +5,8 @@ export default function quickQuoteReducer(state = initialState.quote, action) {
   switch (action.type) {
     case types.LOAD_QUOTE_SUCCESS:
       return action.quote;
+    case types.RESET_QUOTE_SUCCESS:
+      return action.quote;
     default:
       return state;
   }

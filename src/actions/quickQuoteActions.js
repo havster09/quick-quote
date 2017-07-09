@@ -8,6 +8,13 @@ export const loadQuoteSuccess = (quote) => {
   };
 };
 
+export const resetQuoteSuccess = (quote) => {
+  return {
+    type:types.RESET_QUOTE_SUCCESS,
+    quote
+  };
+};
+
 export const setQuickQuoteFormDone = (quickQuoteForm) => {
   return {
     type: types.UPDATE_FORM_SUCCESS,
@@ -25,6 +32,12 @@ export const loadQuote = () => {
     }).catch(error => {
       throw(error);
     });
+  };
+};
+
+export const resetQuote = () => {
+  return (dispatch) => {
+    dispatch(resetQuoteSuccess({}));
   };
 };
 
