@@ -149,3 +149,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuickQuotePage);
+
+/*
+ todo validate for non numeric characters when setting amount
+ todo validate numbers though google-libphonenumber
+ todo finish css
+*/
