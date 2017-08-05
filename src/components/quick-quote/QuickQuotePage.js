@@ -1,18 +1,19 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as quickQuoteActions from '../../actions/quickQuoteActions';
-import {store} from '../../index';
-import * as PropTypes from 'react/lib/ReactPropTypes';
+import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as quickQuoteActions from "../../actions/quickQuoteActions";
+import { store } from "../../index";
+import * as PropTypes from "react/lib/ReactPropTypes";
 
 import QuickQuoteForm from "./QuickQuoteForm";
 import QuickQuoteSummary from "./QuickQuoteSummary";
 
-
 class QuickQuotePage extends React.Component {
   constructor(props, context) {
     super(props, context);
-    this.getValidationStateRequired = this.getValidationStateRequired.bind(this);
+    this.getValidationStateRequired = this.getValidationStateRequired.bind(
+      this
+    );
     this.getValidationStateEmail = this.getValidationStateEmail.bind(this);
     this.getValidationStateAmount = this.getValidationStateAmount.bind(this);
     this.handleParseAmount = this.handleParseAmount.bind(this);
@@ -31,57 +32,60 @@ class QuickQuotePage extends React.Component {
   }
 
   getValidationStateRequired(input) {
-    const {quickQuoteForm} = this.props;
+    const { quickQuoteForm } = this.props;
     const inputTouched = `${input}Touched`;
     if (quickQuoteForm[inputTouched]) {
       const length = quickQuoteForm[input].length;
-      return length > 0 ? 'success' : 'error';
-    }
-    else {
+      return length > 0 ? "success" : "error";
+    } else {
       return null;
     }
   }
 
   getValidationStateAmount(input) {
-    const {quickQuoteForm} = this.props;
+    const { quickQuoteForm } = this.props;
     const inputTouched = `${input}Touched`;
     if (quickQuoteForm[inputTouched]) {
       const amount = parseInt(quickQuoteForm.amount);
-      return amount > 0 ? 'success' : 'error';
-    }
-    else {
+      return amount > 0 ? "success" : "error";
+    } else {
       return null;
     }
   }
 
   getValidationStateEmail(input) {
-    const {quickQuoteForm} = this.props;
+    const { quickQuoteForm } = this.props;
     const inputTouched = `${input}Touched`;
     if (quickQuoteForm[inputTouched]) {
       const value = quickQuoteForm[input];
-      const emailPattern = new RegExp("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$");
-      return emailPattern.test(value) ? 'success' : 'error';
-    }
-    else {
+      const emailPattern = new RegExp("^[a-zA-Z0-9]+@[a-zA-Z0-9]+.[A-Za-z]+$");
+      return emailPattern.test(value) ? "success" : "error";
+    } else {
       return null;
     }
   }
 
   handleChange(e) {
     const id = e.target.id;
-    store.dispatch(quickQuoteActions.setQuickQuoteForm({[id]: e.target.value}));
+    store.dispatch(
+      quickQuoteActions.setQuickQuoteForm({ [id]: e.target.value })
+    );
     this.handleResetQuote();
   }
 
   handleCountryCodeSelect(e) {
-    store.dispatch(quickQuoteActions.setQuickQuoteForm({countryCode: e.target.text}));
+    store.dispatch(
+      quickQuoteActions.setQuickQuoteForm({ countryCode: e.target.text })
+    );
   }
 
   handleFocus(e) {
-    const {quickQuoteForm} = this.props;
+    const { quickQuoteForm } = this.props;
     const idTouched = `${e.target.id}Touched`;
     if (!quickQuoteForm[idTouched]) {
-      store.dispatch(quickQuoteActions.setQuickQuoteForm({[idTouched]: true}));
+      store.dispatch(
+        quickQuoteActions.setQuickQuoteForm({ [idTouched]: true })
+      );
     }
   }
 
@@ -98,7 +102,7 @@ class QuickQuotePage extends React.Component {
   }
 
   render() {
-    const {quickQuoteForm, quickQuote} = this.props;
+    const { quickQuoteForm, quickQuote } = this.props;
     return (
       <div>
         <div className="col-sm-6 quick-quote">
@@ -111,19 +115,21 @@ class QuickQuotePage extends React.Component {
             onHandleCountryCodeSelect={this.handleCountryCodeSelect}
             onHandleFocus={this.handleFocus}
             onHandleQuickQuote={this.handleQuickQuote}
-            quickQuoteForm={quickQuoteForm}/>
+            quickQuoteForm={quickQuoteForm}
+          />
         </div>
 
         <div className="col-sm-6 quick-quote">
           <h2 className="quick-quote__h2">Quick Quote</h2>
-          {quickQuote.Message && <QuickQuoteSummary
-            quickQuoteForm={quickQuoteForm}
-            quickQuote={quickQuote}
-            onParseAmount={this.handleParseAmount}
-            onResetQuote={this.handleResetQuote} />}
+          {quickQuote.Message &&
+            <QuickQuoteSummary
+              quickQuoteForm={quickQuoteForm}
+              quickQuote={quickQuote}
+              onParseAmount={this.handleParseAmount}
+              onResetQuote={this.handleResetQuote}
+            />}
         </div>
       </div>
-
     );
   }
 }
