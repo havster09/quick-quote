@@ -8,13 +8,15 @@
     "open:src": "babel-node tools/srcServer.js",
     "lint": "node_modules/.bin/esw webpack.config.* src tools",
     "lint:watch": "npm run lint -- --watch",
-    "test": "mocha --reporter progress tools/testSetup.js \"src/**/*.test.js\"",
+    "test": "jest",
+    "test:mocha": "mocha --reporter progress tools/testSetup.js \"src/**/*.test.js\"",
     "test:watch": "npm run test -- --watch"
   },
   "license": "MIT",
   "dependencies": {
     "babel-polyfill": "6.8.0",
     "bootstrap": "^3.3.7",
+    "immutable": "^3.8.1",
     "jquery": "2.2.3",
     "react": "0.14.9",
     "react-bootstrap": "^0.31.0",
@@ -52,6 +54,10 @@
     "express": "4.13.4",
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.8.5",
+    "i": "^0.3.5",
+    "jest": "^20.0.4",
+    "jest-css-modules": "^1.1.0",
+    "jest-nyan-reporter": "^1.0.2",
     "jsdom": "8.5.0",
     "mocha": "2.4.5",
     "nock": "8.0.0",
@@ -66,5 +72,18 @@
     "webpack": "1.13.0",
     "webpack-dev-middleware": "1.6.1",
     "webpack-hot-middleware": "2.10.0"
+  },
+  "jest": {
+    "transform": {
+      ".*": "./node_modules/jest-css-modules"
+    },
+    "reporters": [
+      [
+        "jest-nyan-reporter",
+        {
+          "suppressErrorReporter": false
+        }
+      ]
+    ]
   }
 }

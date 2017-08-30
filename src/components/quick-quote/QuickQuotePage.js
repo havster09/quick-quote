@@ -1,12 +1,13 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as quickQuoteActions from "../../actions/quickQuoteActions";
-import { store } from "../../index";
-import * as PropTypes from "react/lib/ReactPropTypes";
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as quickQuoteActions from '../../actions/quickQuoteActions';
+import { store } from '../../index';
+import * as PropTypes from 'react/lib/ReactPropTypes';
 
-import QuickQuoteForm from "./QuickQuoteForm";
-import QuickQuoteSummary from "./QuickQuoteSummary";
+import QuickQuoteForm from './QuickQuoteForm';
+import QuickQuoteSummary from './QuickQuoteSummary';
+import QuickQuoteRefTest from './QuickQuoteRefTest';
 
 class QuickQuotePage extends React.Component {
   constructor(props, context) {
@@ -24,7 +25,10 @@ class QuickQuotePage extends React.Component {
 
     this.handleQuickQuote = this.handleQuickQuote.bind(this);
     this.handleResetQuote = this.handleResetQuote.bind(this);
+    this.runChildRefMethod = this.runChildRefMethod.bind(this);
+    this.getQQRef = this.getQQRef.bind(this);
     this.state = {};
+    this.quickQuoteRefTest = null;
   }
 
   componentDidMount() {
@@ -36,7 +40,7 @@ class QuickQuotePage extends React.Component {
     const inputTouched = `${input}Touched`;
     if (quickQuoteForm[inputTouched]) {
       const length = quickQuoteForm[input].length;
-      return length > 0 ? "success" : "error";
+      return length > 0 ? 'success' : 'error';
     } else {
       return null;
     }
@@ -47,7 +51,7 @@ class QuickQuotePage extends React.Component {
     const inputTouched = `${input}Touched`;
     if (quickQuoteForm[inputTouched]) {
       const amount = parseInt(quickQuoteForm.amount);
-      return amount > 0 ? "success" : "error";
+      return amount > 0 ? 'success' : 'error';
     } else {
       return null;
     }
@@ -58,8 +62,8 @@ class QuickQuotePage extends React.Component {
     const inputTouched = `${input}Touched`;
     if (quickQuoteForm[inputTouched]) {
       const value = quickQuoteForm[input];
-      const emailPattern = new RegExp("^[a-zA-Z0-9]+@[a-zA-Z0-9]+.[A-Za-z]+$");
-      return emailPattern.test(value) ? "success" : "error";
+      const emailPattern = new RegExp('^[a-zA-Z0-9]+@[a-zA-Z0-9]+.[A-Za-z]+$');
+      return emailPattern.test(value) ? 'success' : 'error';
     } else {
       return null;
     }
@@ -98,7 +102,15 @@ class QuickQuotePage extends React.Component {
   }
 
   handleParseAmount(num) {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  runChildRefMethod() {
+    console.log(this.quickQuoteRefTest.msg.woof(), this.quickQuoteRefTest.msg.hiss());
+  }
+
+  getQQRef(c) {
+    this.quickQuoteRefTest = c;
   }
 
   render() {
@@ -106,6 +118,7 @@ class QuickQuotePage extends React.Component {
     return (
       <div>
         <div className="col-sm-6 quick-quote">
+          <button onClick={this.runChildRefMethod} className="btn btn-default">Woof</button>
           <h2 className="quick-quote__h2">Quick Quote</h2>
           <QuickQuoteForm
             onGetValidationStateRequired={this.getValidationStateRequired}
@@ -129,6 +142,14 @@ class QuickQuotePage extends React.Component {
               onResetQuote={this.handleResetQuote}
             />}
         </div>
+        <QuickQuoteRefTest
+          ref={this.getQQRef}
+        />
+        <button
+          ref={(buttonRef) => this.buttonRef = buttonRef}
+          className="btn btn-primary"
+        >Test
+        </button>
       </div>
     );
   }
