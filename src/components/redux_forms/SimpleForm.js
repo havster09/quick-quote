@@ -32,7 +32,7 @@ const warn = values => {
 const aol = value =>
   value && /.+@aol\.com/.test(value)
     ? 'Really? You still use AOL for your email?'
-    : undefined
+    : undefined;
 
 const renderField = ({
   input,
@@ -58,36 +58,33 @@ const renderField = ({
     </div>
   </div>;
 
-class SimpleForm extends React.Component {
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.submitSucceeded) {
-      console.log('close modal and fire toast');
-    }
-  }
-
-  render() {
-    const { handleSubmit } = this.props;
-    return (
-      <form onSubmit={handleSubmit}>
-        {JSON.stringify(this.props, null, 4)}
-        <Field
-          name="firstName"
-          type="text"
-          component={renderField}
-          label="First Name"
-        />
-        <Field
-          name="lastName"
-          type="text"
-          component={renderField}
-          label="Last Name"
-        />
-        <Field name="email" type="email" validate={aol} component={renderField} label="Email"/>
-        <button type="submit">Submit</button>
-      </form>
-    );
-  }
+let SimpleForm = props => {
+  const { handleSubmit } = props;
+  return (
+    <form onSubmit={handleSubmit}>
+      {JSON.stringify(props, null, 4)}
+      <Field
+        name="firstName"
+        type="text"
+        component={renderField}
+        label="First Name"
+      />
+      <Field
+        name="lastName"
+        type="text"
+        component={renderField}
+        label="Last Name"
+      />
+      <Field
+        name="email"
+        type="email"
+        validate={aol}
+        component={renderField}
+        label="Email"
+      />
+      <button type="submit">Submit</button>
+    </form>
+  );
 };
 
 SimpleForm.propTypes = {

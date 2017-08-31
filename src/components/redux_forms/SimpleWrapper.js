@@ -8,7 +8,9 @@ const SimpleWrapper = ({ invokeSubmit }) => {
   return (
     <div>
       <button onClick={invokeSubmit}>Invoke</button>
-      <SimpleForm onSubmit={submitAction} />
+      <SimpleForm
+        onSubmitSuccess={() => console.log('success callback')}
+        onSubmit={submitAction} />
     </div>
   );
 };
