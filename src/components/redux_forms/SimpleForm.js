@@ -58,27 +58,36 @@ const renderField = ({
     </div>
   </div>;
 
-let SimpleForm = props => {
-  const { handleSubmit, pristine } = props;
-  return (
-    <form onSubmit={handleSubmit}>
-      {JSON.stringify(props, null, 4)}
-      <Field
-        name="firstName"
-        type="text"
-        component={renderField}
-        label="First Name"
-      />
-      <Field
-        name="lastName"
-        type="text"
-        component={renderField}
-        label="Last Name"
-      />
-      <Field name="email" type="email" validate={aol} component={renderField} label="Email" />
-      <button type="submit">Submit</button>
-    </form>
-  );
+class SimpleForm extends React.Component {
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.submitSucceeded) {
+      console.log('close modal and fire toast');
+    }
+  }
+
+  render() {
+    const { handleSubmit } = this.props;
+    return (
+      <form onSubmit={handleSubmit}>
+        {JSON.stringify(this.props, null, 4)}
+        <Field
+          name="firstName"
+          type="text"
+          component={renderField}
+          label="First Name"
+        />
+        <Field
+          name="lastName"
+          type="text"
+          component={renderField}
+          label="Last Name"
+        />
+        <Field name="email" type="email" validate={aol} component={renderField} label="Email"/>
+        <button type="submit">Submit</button>
+      </form>
+    );
+  }
 };
 
 SimpleForm.propTypes = {
