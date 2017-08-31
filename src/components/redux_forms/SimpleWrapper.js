@@ -2,12 +2,13 @@ import React from 'react';
 import SimpleForm from './SimpleForm';
 import { connect } from 'react-redux';
 import { submit } from 'redux-form';
+import submitAction from './submit';
 
 const SimpleWrapper = ({ invokeSubmit }) => {
   return (
     <div>
       <button onClick={invokeSubmit}>Invoke</button>
-      <SimpleForm />
+      <SimpleForm onSubmit={submitAction} />
     </div>
   );
 };

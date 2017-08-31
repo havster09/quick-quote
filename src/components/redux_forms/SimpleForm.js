@@ -1,6 +1,5 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import submit from './submit';
 
 const validate = values => {
   const errors = {};
@@ -60,9 +59,10 @@ const renderField = ({
   </div>;
 
 let SimpleForm = props => {
-  const { handleSubmit } = props;
+  const { handleSubmit, pristine } = props;
   return (
     <form onSubmit={handleSubmit}>
+      {JSON.stringify(props, null, 4)}
       <Field
         name="firstName"
         type="text"
@@ -89,8 +89,7 @@ SimpleForm.propTypes = {
 SimpleForm = reduxForm({
   form: 'simple',
   validate,
-  warn,
-  onSubmit: submit
+  warn
 })(SimpleForm);
 
 export default SimpleForm;
