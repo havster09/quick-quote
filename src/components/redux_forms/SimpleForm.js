@@ -1,7 +1,9 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import {connect} from 'react-redux';
+import { Field, reduxForm, getFormValues, formValueSelector } from 'redux-form';
 
-const validate = values => {
+const validate = (values, props) => {
+  console.log(props);
   const errors = {};
   if (!values.firstName) {
     errors.firstName = 'Required';
@@ -18,6 +20,8 @@ const validate = values => {
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Invalid email address';
   }
+  if (!values.firstName && !values.lastName)
+  errors._error = 'One Phone Number Required';
   return errors;
 };
 
@@ -29,10 +33,16 @@ const warn = values => {
   return warnings;
 };
 
-const aol = value =>
-  value && /.+@aol\.com/.test(value)
+const aol = (value, allValues, props) => {
+  console.log(allValues, props);
+  if(!allValues.firstName && !allValues.lastName) {
+    return 'at least one phone test';
+  }
+  return value && /.+@aol\.com/.test(value)
     ? 'Really? You still use AOL for your email?'
     : undefined;
+};
+
 
 const renderField = ({
   input,
@@ -62,7 +72,10 @@ let SimpleForm = props => {
   const { handleSubmit } = props;
   return (
     <form onSubmit={handleSubmit}>
-      {JSON.stringify(props, null, 4)}
+      <pre>
+        {JSON.stringify(props, null, 4)}
+      </pre>
+      {props.error === 'One Phone Number Required' && <p>{props.error}</p>}
       <Field
         name="firstName"
         type="text"
@@ -82,7 +95,7 @@ let SimpleForm = props => {
         component={renderField}
         label="Email"
       />
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={props.invalid}>Submit</button>
     </form>
   );
 };
@@ -94,6 +107,7 @@ SimpleForm.propTypes = {
 
 SimpleForm = reduxForm({
   form: 'simple',
+  initialValues: {lastName: 'havster09@gmail.com'},
   validate,
   warn
 })(SimpleForm);

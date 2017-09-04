@@ -21,7 +21,7 @@ class LooperConsumer extends React.Component {
 
   animate() {
     console.log(this.props.loopId);
-    if(this.context.loop.loopID % 1000 === 1) {
+    if(this.context.loop.loopID % 100 === 1) {
       this.props.onUpdateLoopIdReference();
       LooperScene.staticFire();
     }
