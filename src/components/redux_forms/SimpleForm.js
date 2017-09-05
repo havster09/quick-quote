@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import { Field, reduxForm, getFormValues, formValueSelector } from 'redux-form';
+import MyCustomInput from './MyCustomInput';
 
 const validate = (values, props) => {
   console.log(props);
@@ -76,6 +77,8 @@ let SimpleForm = props => {
         {JSON.stringify(props, null, 4)}
       </pre>
       {props.error === 'One Phone Number Required' && <p>{props.error}</p>}
+
+      <Field name="myField" component={MyCustomInput}/>
       <Field
         name="firstName"
         type="text"
