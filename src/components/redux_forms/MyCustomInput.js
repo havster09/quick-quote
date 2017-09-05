@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
+import IntlTelInput from 'react-intl-tel-input';
+import 'file?name=libphonenumber.js!./../../../node_modules/react-intl-tel-input/dist/libphonenumber.js';
+// import './../../../node_modules/react-intl-tel-input/dist/main.css';
 
 export default class MyCustomInput extends Component {
   render() {
     const { input: { value, onChange, onBlur, onFocus } } = this.props;
     return (
       <div>
-        <span>
-        </span>
-        <input type="text"
+        <IntlTelInput css={['intl-tel-input', 'form-control']}
+                      onPhoneNumberChange={(status, value, country) => onChange({status, value, country})}
+                      onPhoneNumberBlur={(status, value, country) => onBlur()}
+                      utilsScript={'libphonenumber.js'}
+        />
+        {/* <input type="text"
                onChange={(value) => onChange(value)}
                onBlur={(value) => onBlur(value)}
-        />
+        />*/}
         <code>
           <pre>
             {JSON.stringify(this.props, null, 4)}

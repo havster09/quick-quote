@@ -21,6 +21,7 @@
     "react": "0.14.9",
     "react-bootstrap": "^0.31.0",
     "react-dom": "0.14.9",
+    "react-intl-tel-input": "^4.2.0",
     "react-rating": "^0.6.5",
     "react-redux": "4.4.5",
     "react-router": "2.4.0",
