@@ -69,8 +69,12 @@ const renderField = ({
     </div>
   </div>;
 
+const handleBlur = (event, newValue, previousValue) => {
+  debugger;
+};
+
 let SimpleForm = props => {
-  const { handleSubmit } = props;
+  const { handleSubmit, onBlur } = props;
   return (
     <form onSubmit={handleSubmit}>
       <pre>
@@ -78,7 +82,7 @@ let SimpleForm = props => {
       </pre>
       {props.error === 'One Phone Number Required' && <p>{props.error}</p>}
 
-      <Field name="myField" component={MyCustomInput}/>
+      <Field name="myField" component={MyCustomInput} onBlur={handleBlur}/>
       <Field
         name="firstName"
         type="text"
