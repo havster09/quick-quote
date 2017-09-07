@@ -21,16 +21,16 @@ export class SimpleWrapper extends React.Component {
   }
 
   render() {
-  return (
-    <div>
+    return (
+      <div>
         <button onClick={this.props.invokeSubmit}>Invoke</button>
-      <SimpleForm
+        <SimpleForm
           onSubmitSuccess={this.handleSuccess}
-        onSubmit={submitAction} />
-    </div>
-  );
+          onSubmit={submitAction}
+        />
+      </div>
+    );
   }
-
 }
 
 SimpleWrapper.propTypes = {};

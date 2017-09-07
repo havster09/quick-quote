@@ -10,7 +10,7 @@ const submit = values => {
         _error: 'Submit failed!'
       });
     } else {
-      window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`);
+      console.log(`You submitted:\n\n${JSON.stringify(values, null, 2)}`);
     }
   });
 };

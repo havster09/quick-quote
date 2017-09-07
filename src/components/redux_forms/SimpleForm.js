@@ -4,13 +4,12 @@ import { Field, reduxForm, getFormValues, formValueSelector } from 'redux-form';
 import MyCustomInput from './MyCustomInput';
 
 const validate = (values, props) => {
-  console.log(props);
   const errors = {};
   if (!values.firstName) {
     errors.firstName = 'Required';
   } else if (values.firstName.length > 15) {
     errors.firstName = 'Must be 15 characters or less';
-  }
+  }/*
   if (!values.lastName) {
     errors.lastName = 'Required';
   } else if (values.lastName.length > 15) {
@@ -22,7 +21,7 @@ const validate = (values, props) => {
     errors.email = 'Invalid email address';
   }
   if (!values.firstName && !values.lastName)
-  errors._error = 'One Phone Number Required';
+  errors._error = 'One Phone Number Required';*/
   return errors;
 };
 
@@ -35,7 +34,6 @@ const warn = values => {
 };
 
 const aol = (value, allValues, props) => {
-  console.log(allValues, props);
   if(!allValues.firstName && !allValues.lastName) {
     return 'at least one phone test';
   }
@@ -59,18 +57,18 @@ const renderField = ({
       <input {...input} placeholder={label} type={type} />
       {touched &&
         ((error &&
-          <span>
+          <span className="error">
             {error}
           </span>) ||
           (warning &&
-            <span>
+            <span className="warning">
               {warning}
             </span>))}
     </div>
   </div>;
 
 const handleBlur = (event, newValue, previousValue) => {
-  debugger;
+
 };
 
 let SimpleForm = props => {
@@ -82,7 +80,7 @@ let SimpleForm = props => {
       </pre>
       {props.error === 'One Phone Number Required' && <p>{props.error}</p>}
 
-      <Field name="myField" component={MyCustomInput} onBlur={handleBlur}/>
+      {/*<Field name="myField" component={MyCustomInput} onBlur={handleBlur}/>*/}
       <Field
         name="firstName"
         type="text"
@@ -98,11 +96,10 @@ let SimpleForm = props => {
       <Field
         name="email"
         type="email"
-        validate={aol}
         component={renderField}
         label="Email"
       />
-      <button type="submit" disabled={props.invalid}>Submit</button>
+      <button type="submit">Submit</button>
     </form>
   );
 };
@@ -114,7 +111,7 @@ SimpleForm.propTypes = {
 
 SimpleForm = reduxForm({
   form: 'simple',
-  initialValues: {lastName: 'havster09@gmail.com'},
+  initialValues: {email: 'havster09@gmail.com', firstName: 'ewrwr', lastName: 'sdfdsf'},
   validate,
   warn
 })(SimpleForm);

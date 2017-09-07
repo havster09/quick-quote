@@ -12,7 +12,7 @@ class LooperConsumer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    console.log(nextProps, nextContext);
+
   }
 
   componentWillUnmount() {

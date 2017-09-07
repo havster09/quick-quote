@@ -7,7 +7,7 @@ export default class MyCustomInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fu:12
+      fu:1
     };
   }
   render() {
