@@ -7,7 +7,7 @@ export default class MyCustomInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fu:1
+      fu: 1
     };
   }
   render() {
@@ -19,6 +19,7 @@ export default class MyCustomInput extends Component {
           onChange({ status, value, country })}
         onPhoneNumberBlur={(status, value, country) => onBlur()}
         utilsScript={'libphonenumber.js'}
+        format
       />
     );
 
@@ -32,11 +33,7 @@ export default class MyCustomInput extends Component {
 
     return (
       <div>
-        {
-          (this.state.fu === 1)
-          ? phone
-          : input
-        }
+        {this.state.fu === 1 ? phone : input}
 
         <code>
           <pre>

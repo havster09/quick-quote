@@ -80,7 +80,7 @@ let SimpleForm = props => {
       </pre>
       {props.error === 'One Phone Number Required' && <p>{props.error}</p>}
 
-      {/*<Field name="myField" component={MyCustomInput} onBlur={handleBlur}/>*/}
+      <Field name="myField" component={MyCustomInput} onBlur={handleBlur}/>
       <Field
         name="firstName"
         type="text"
