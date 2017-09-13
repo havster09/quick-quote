@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import IntlTelInput from 'react-intl-tel-input';
 import 'file?name=libphonenumber.js!./../../../node_modules/react-intl-tel-input/dist/libphonenumber.js';
 // import './../../../node_modules/react-intl-tel-input/dist/main.css';
+// import 'react-intl-tel-input/dist/main.css';
 
 export default class MyCustomInput extends Component {
   constructor(props) {
@@ -10,16 +11,20 @@ export default class MyCustomInput extends Component {
       fu: 1
     };
   }
+  componentDidMount() {
+    this.phoneInput.tel.focus();
+  }
   render() {
     const { input: { value, onChange, onBlur, onFocus } } = this.props;
     const phone = (
       <IntlTelInput
         css={['intl-tel-input', 'form-control']}
+        fieldName="fu"
         onPhoneNumberChange={(status, value, country) =>
           onChange({ status, value, country })}
         onPhoneNumberBlur={(status, value, country) => onBlur()}
         utilsScript={'libphonenumber.js'}
-        format
+        ref={(input) => this.phoneInput = input}
       />
     );
 
